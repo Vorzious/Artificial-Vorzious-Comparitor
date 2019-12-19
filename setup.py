@@ -11,7 +11,7 @@ with open(os.path.join(HERE, "README.md")) as fid:
 # This call to setup() does all the work
 setup(
     name="Artificial Vorzious Comparitor",
-    version="1.0.0",
+    version="1.0.1",
     description="Tool built to compare edi files",
     long_description=README,
     long_description_content_type="text/markdown",
