@@ -40,11 +40,10 @@ $ pip install Pillow
 
 To start using AVC **clone** or **download** this repository. Everything should be setup in order to work straight out of the box. 
 
-If you have followed the instructions and have installed all the requirements you can run AVC by double clicking `AV Comparitor.bat` inside of your download location.
-
+If you have followed the instructions and have installed all the requirements you can run AVC by double clicking `Artificial Vorzious Comparitor.py` inside of your download location.
 
 ---
 ## Comparison Results
 ---
 
-All results from comparisons ran can be found in the `comparisons` directory inside of the root directory (Where you've run `AV Comparitor.bat`).
+All results from comparisons ran can be found in the `comparisons` directory inside of the root directory (Where you've run `Artificial Vorzious Comparitor.py`).

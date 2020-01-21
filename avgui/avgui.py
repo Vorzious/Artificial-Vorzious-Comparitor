@@ -28,6 +28,9 @@ class Avgui():
         # If config settigs contain non-existent last-used directories. Reset the last used directories to the working directory
         if not os.path.isdir(self.last_used_primary_directory) or not os.path.isdir(self.last_used_secondary_directory):
             self.set_last_used_directory("both", ".")
+        else:
+            self.primary_directory = self.last_used_primary_directory
+            self.secondary_directory = self.last_used_secondary_directory
 
         self.seg_type = StringVar()
         self.ref_num = StringVar()
@@ -109,8 +112,12 @@ class Avgui():
         self.primary_directory_upload_button = Button(self.primary_directory_frame, cursor="hand2", text="Select", font=("Helvetica", 9, "bold"), activebackground=self.from_rgb(self.blue_rgb), bg=self.from_rgb(self.blue_rgb), fg="white", padx=10, pady=10, command=self.primary_directory_to_use).pack(fill=BOTH)
         self.secondary_directory_upload_button = Button(self.secondary_directory_frame, cursor="hand2", text="Select", font=("Helvetica", 9, "bold"), activebackground=self.from_rgb(self.blue_rgb), bg=self.from_rgb(self.blue_rgb), fg="white", padx=10, pady=10, command=self.secondary_directory_to_use).pack(fill=BOTH)
         
-        self.primary_directory_chosen_label = Label(self.primary_directory_frame, text="No directory has been selected", justify=CENTER, wraplength=180, bg=self.from_rgb(self.default_rgb))
-        self.secondary_directory_chosen_label = Label(self.secondary_directory_frame, text="No directory has been selected", justify=CENTER, wraplength=180, bg=self.from_rgb(self.default_rgb))
+        if self.last_used_primary_directory == "." or self.last_used_secondary_directory == ".":
+            self.primary_directory_chosen_label = Label(self.primary_directory_frame, text="No directory has been selected", justify=CENTER, wraplength=180, bg=self.from_rgb(self.default_rgb))
+            self.secondary_directory_chosen_label = Label(self.secondary_directory_frame, text="No directory has been selected", justify=CENTER, wraplength=180, bg=self.from_rgb(self.default_rgb))
+        else:
+            self.primary_directory_chosen_label = Label(self.primary_directory_frame, text=self.last_used_primary_directory, justify=CENTER, wraplength=180, bg=self.from_rgb(self.default_rgb))
+            self.secondary_directory_chosen_label = Label(self.secondary_directory_frame, text=self.last_used_secondary_directory, justify=CENTER, wraplength=180, bg=self.from_rgb(self.default_rgb))
 
         self.execute_cmp_button = Button(self.primary_directory_frame, bd=2, activebackground=self.from_rgb(self.green_rgb), bg=self.from_rgb(self.green_rgb), fg="white", font=("Helvetica", 11, "bold"), cursor="hand2", text="Run Comparison", command=self.run_cmp)
         self.execute_cmp_button.pack(fill=BOTH, expand=YES, side=BOTTOM, anchor=W, ipady=15)
@@ -143,7 +150,7 @@ class Avgui():
     def run_cmp(self):
         if self.seg_type.get() != "" and self.ref_num.get() != "":
             cmp = Thoth(self.primary_directory, self.secondary_directory, self.format_bool.get(), self.seg_type.get(), self.ref_num.get())
-            
+
             self.results.config(state=NORMAL) # Ensure that the program can write to the text area
             self.results.delete("1.0", END) # Ensure that there's no text in the widget -- Only show the newest comparison
             error_color_tag = self.results.tag_configure("Missing", background=self.from_rgb(self.red_rgb), foreground="white")

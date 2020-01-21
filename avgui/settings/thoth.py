@@ -16,7 +16,7 @@ class Thoth():
     def __init__(self, primary, secondary, format_required, seg_type, ref_num):
         self.segment_type = seg_type
         self.reference_number = ref_num
-        
+
         for f in os.listdir(primary):
             if f.endswith(".edi"):
                 edi = open(primary + "/" + f, 'r')
@@ -223,13 +223,13 @@ class Thoth():
             return f.name
 
     def generate_name(self, primary_results, primary, secondary):
-        # FIXME
-        # "UNH" is now getting added to the name.... 
         today = datetime.date(datetime.now())
         today = today.strftime("%Y%m%d")
         primary_filter = [key for key, value in primary_results.items() if primary in key][0] # Always grab the first segment type from a list to create a name        
+        primary_filter = re.sub("UNH", "", primary_filter)
         secondary_filter = [key for key, value in primary_results.items() if secondary in key][0]  # Always grab the first additional type from a list to create a name
         secondary_filter = secondary_filter.rsplit(":")[1] # Only grab the reference number, remove unnecessary information
-        name = "%s_%s_%s.txt" % (today, primary_filter, secondary_filter)
         
+        name = "%s_%s_%s.txt" % (today, primary_filter, secondary_filter)
+    
         return name
